@@ -1,0 +1,50 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} Carrito de compras {% endblock %}
+
+{% block article_section %}
+
+<div>
+<div class="carrito bg-light m-3 p-3 mx-auto" id="carrito1">
+    <h1 class="mx-auto text-center display-4">Carrito</h1>
+
+    <ul>
+    {% for n in finalorder %}
+        <div class="border-top border-bottom p-3">
+            <li>
+                <div class="d-flex flex-row justify-content-md-between p-1">
+                    <div class="d-flex flex-row">
+                        <img src="{{ n.item.imagen.url}}" class="img-fluid img-thumbnail imagencarrito mx-auto" alt="Producto">
+                        <div class="d-flex flex-column p-2 contenedorcarrito2">
+                            <h4>{{ n.item.titulo }}</h4>
+                            <span class="" style="color:gray">Cantidad de productos: {{ n.quantity }} <a type="button" class="btn btn-secondary btn-sm" href="/reduce-from-cart/{{ n.item.id }}"><i style="font-size:12px" class="fa">&#xf149;</i></a></span>
+                            <a href="/remove-from-cart/{{ n.item.id }}">Eliminar producto</a>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <h4 class="precioprodcarrito">${% widthratio n.item.precio 1 n.quantity %}</h4>
+                    </div>
+                </div>
+            </li>
+        </div>
+    {% endfor %}
+    </ul>
+    <div class="d-flex justify-content-between">
+        <a type="button" class="btn btn-danger align-self-center {% if products %}{% else %}disabled{% endif %}" href="{% url 'App_Inicio:clean-cart' %}">Limpiar Carrito</a>
+        <div class="d-flex flex-column">
+            <span>Precio parcial: ${{ precioparcial }}</span>
+            <span style="color:#428331">Descuento por nivel: ${{ get_descuento|floatformat:2 }}</span>
+            <span class="display-4 preciofincarrito">Precio total: ${{ preciofinal|floatformat:2 }}</span>
+            <a type="button" onclick='AjaxComprar("/finalizar-compra/")' class="btn btn-primary {% if products %}{% else %}disabled{% endif %}">Finalizar compra</a>
+        </div>
+    </div>
+</div>
+
+<div class="carrito bg-light m-3 p-3 mx-auto" id="carrito2">
+    <h1 class="mx-auto text-center display-4">Muchas gracias por su compra!</h1>
+    <span class="mx-auto text-center">Usted ha obtenido <span style="color: green"><b>{{ precioparcial }}</b></span> puntos de experiencia con esta ultima compra!</span>
+</div>
+</div>
+
+{% endblock %}

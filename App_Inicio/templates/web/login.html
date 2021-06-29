@@ -1,0 +1,42 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} Ingresar {% endblock %}
+
+{% block article_section %}
+
+{% if user.is_authenticated %}
+<h1>Ya se encuentra loguado!</h1>
+{% else %}
+<!--Login--> 
+<div class="container py-5">
+	<div class="userform bg-light">
+		<h1>Ingresar</h1>
+		<form method="POST">
+		{% csrf_token %}
+		<ul>
+			<li class="text-center"><b>Nombre de usuario:</b></li>
+			<li>{{ login_form.username }}</li><br>
+			<li class="text-center"><b>Contraseña:</b></li>
+			<li>{{ login_form.password }}</li><br>
+			<button class="btn btn-primary" type="submit">Login</button><br>
+
+			{% if messages %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul class="messages">
+						{% for message in messages %}
+						<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+						{% endfor %}
+					</ul>
+					
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			  	</div>
+			{% endif %}
+			
+		</ul>
+		</form>
+		<p class="text-center">¿Todavia no tenes cuenta? <a style="text-decoration: none;" href="/register">Crear una cuenta</a>.</p>
+  	</div>
+</div>
+{% endif %}
+{% endblock %}

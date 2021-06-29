@@ -1,0 +1,43 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} Inicio {% endblock %}
+
+{% block article_title %}Inicio{% endblock  %}
+
+{% block article_section %}
+<div class="ultProdTitle">
+  <h1>Últimos Productos!</h1>
+  <span>Más de {{ productos }} productos!</span>
+</div>
+<div class="ultimos3prod">
+  <div class="card-group w-30 mx-auto">
+    {% for n in ultimosTres %}
+    <div class="card">
+      <img src="{{ n.imagen.url}}" class="card-img-top imagencard img-fluid" alt="...">
+        <div class="card-body">
+          <h5 class="card-title cardtextproduct">{{ n.titulo }}</h5>
+          <p class="card-text cardtextproduct">{{ n.descripcion }}</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted mx-auto"><div class="text-center"><span class="precioproducto">Precio: <b>${{ n.precio }}</b></span></div></small>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted mx-auto"><div class="text-center"><a type="button" class="btn btn-primary addcarrito" href="/detalle/{{ n.id }}">Ver más sobre este producto!</a></div></small>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="masproductos">
+  <h3>Más Productos</h3>
+    <div class="itemslist">
+      <ul>
+      {% for n in ultimosDiez %}
+        <li><a href="/detalle/{{ n.id }}" type="button"><b>{{ n.titulo }}</b>: {{ n.descripcion }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+</div>
+
+{% endblock article_section %}

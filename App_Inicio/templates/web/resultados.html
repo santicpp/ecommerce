@@ -1,0 +1,55 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} Resultado de la busqueda: {{ busqueda }} {% endblock %}
+
+{% block article_section %}
+
+<h1 class="p-3 mx-auto text-center">Resultados de la busqueda: "{{ busqueda }}"</h1>
+
+<div class="mb-3 mx-auto bg-light" style="max-width: 95%;">
+  {% for n in busqueda_pag %}   
+ <div class="row g-0 contenedorprod">
+   <div class="col-md-4">
+     <img class="imagencproducto mx-auto" src="{{ n.imagen.url}}" alt="{{ n.titulo }}">
+   </div>
+   <div class="col-md-8">
+     <div class="card-body">
+       <h5 class="card-title">{{ n.titulo }}</h5>
+       <p class="card-text">{{ n.descripcion }}</p>
+       {% if user.is_authenticated %}
+       <p class="card-text"><small class="text-muted"><a class="btn btn-outline-primary" href="/detalle/{{ n.id }}">Ver más</a>   <a class="btn btn-outline-success" onclick='AjaxAgregar("/add-to-cart/{{ n.id }}")'>Agregar al carrito</a></small></p>
+       {% else %}
+       <p class="card-text"><small class="text-muted"><a class="btn btn-outline-primary" href="/detalle/{{ n.id }}">Ver más</a>   <a class="btn btn-outline-success" href="{% url 'App_Inicio:register' %}">Agregar al carrito</a></small></p>
+       {% endif %}
+      </div>
+   </div>
+ </div>
+ {% endfor %}
+</div>
+
+<div class="paginacioncat">
+  <nav aria-label="navigation" class="navpaginacioncat">
+      <ul class="pagination">
+      {% if busqueda_pag.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">Primera</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ busqueda_pag.previous_page_number }}"><span aria-hidden="true">&laquo;</span></a></li>
+      {% else %}
+          <li class="page-item disabled"><a class="page-link" href="">Primera</a></li>
+          <li class="page-item disabled"><a class="page-link" href=""><span aria-hidden="true">&laquo;</span></a></li>
+      {% endif %}
+
+      {% if busqueda_pag.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ busqueda_pag.next_page_number }}"><span aria-hidden="true">&raquo;</span></a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ busqueda_pag.paginator.num_pages }}">Última</a></li>
+      {% else %}
+          <li class="page-item disabled"><a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+          <li class="page-item disabled"><a class="page-link" href="#">Última</a></li>
+      {% endif %}
+      </ul>
+  </nav>
+  <span class="current">
+      <b>Página {{ busqueda_pag.number }} de {{ busqueda_pag.paginator.num_pages }}.</b>
+  </span>
+</div>
+{% endblock %}

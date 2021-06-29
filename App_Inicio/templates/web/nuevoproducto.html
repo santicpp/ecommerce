@@ -1,0 +1,48 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} Nuevo producto {% endblock %}
+
+{% block article_section %}
+
+{% if request.user.is_staff %}
+
+<h1 id="nuevoprodtit">Agregar un nuevo producto:</h1>
+
+<form action="{% url 'App_Inicio:nuevoproducto' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.management_form }}
+  <div class="nuevoproducto bg-dark">
+    <ul>
+        <li><label>Título del producto: </label></li>
+        <li>{{ form.titulo }}</li>
+        <li><label>Imagen del producto: </label></li>
+        <li>{{ form.imagen }}</li>
+        <li><label>Descripción del producto: </label></li>
+        <li>{{ form.descripcion }}</li>
+        <li><label>Precio del producto: </label></li>
+        <li>{{ form.precio }}</li>
+        <li><label>Categoria: </label></li>
+        <li>{{ form.categoria }}</li>
+        <li><button class="btn btn-primary" type="submit">Guardar!</button></li>
+    </ul>
+    {% if messages %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<ul class="messages">
+						{{ form.message.errors }}
+						<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+
+					</ul>
+					
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			  	</div>
+		{% endif %}
+  </div>
+</form>
+
+{% else %}
+<h1>No tiene permisos para acceder a este sitio.</h1>
+
+{% endif %}
+
+{% endblock %}

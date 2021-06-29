@@ -1,0 +1,42 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+
+{% block title %} {{ producto.titulo }} {% endblock %}
+
+{% block article_section %}
+
+<div class="breadcontainer">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/categoria/{{ producto.categoria.id }}">{{ producto.categoria }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ producto.titulo }}</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="bg-light mx-auto d-flex flex-sm flex-column flex-md-row detallecontenedor m-3 p-3">
+    <div class="detalleimagen w-100 w-sm-50">
+        <img src="{{ producto.imagen.url}}" class="img-fluid img-thumbnail w-auto imagendetalle mx-auto" alt="Producto">
+    </div>
+    <div class="mx-auto w-100 w-sm-50 flex-column detallecontenido">
+        <h3 class="display-4 detalletitulo">{{ producto.titulo }}</h3>
+        <p><i style="font-size:24px" class="fa">&#xf114;</i> <b>Categoria:</b> <a href="/categoria/{{ producto.categoria.id }}">{{ producto.categoria }}</a></p>
+        <p><span class="badge bg-primary"><i style="font-size:12px" class="fa">&#xf1d8;</i> <span>Envio gratuito!</span></span></p>
+        <h4><i style="font-size:24px" class="fa">&#xf0d6;</i> ${{ producto.precio }}</h4><br>
+        <b>Descripción del producto:</b>
+        <p class="text-justify">{{ producto.descripcion|linebreaks }}</p>
+        {% if request.user.is_staff %}
+            <a class="btn btn-primary" href="/editar/{{ producto.id }}">Editar</a>
+            <a class="btn btn-success" onclick='AjaxAgregar("/add-to-cart/{{ producto.id }}")'>Agregar al carrito</a>
+                {% else %}
+                    {% if user.is_authenticated %}
+                <a class="btn btn-success" onclick='AjaxAgregar("/add-to-cart/{{ producto.id }}")'>Agregar al carrito</a>
+                    {% else %}
+                <a class="btn btn-success" href="{% url 'App_Inicio:register' %}"><i style="font-size:24px" class="fa">&#xf217;</i> Agregar al carrito</a>
+                    {% endif %}
+                {% endif %}
+    </div>
+</div>
+
+{% endblock %}

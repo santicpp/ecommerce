@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'styles/style.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
+    <title>Jaguarete KAA - {% block title %} {% endblock %}</title>
+</head>
+
+<header class="sticky-top">
+    <nav class="navbar justify-content-center navbar-dark bg-dark navbar-expand-lg barra">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center titulo" href="/"> <img src="{% static 'images/logo.png' %}" alt="" width="40" height="40" class="d-inline-block align-text-top mx-2 logo"> <span class="marca">Jaguarete KAA</span>
+                </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse flex-column align-items-end" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <div class="container usuario">
+                      <div class="btnuser">
+                        Bienvenido <b>{{ user.get_username }}!</b> <span class="badge bg-primary">Lvl. {{ userlvl }}</span>
+                        <span class="visually-hidden">level</span>
+                      <div class="progress progreso">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success barranivel" role="progressbar" style="width: {{ userexppercentage }}%" aria-valuenow="{{ userexppercentage }}" aria-valuemin="0" aria-valuemax="100"><b>{{ userexppercentage }}%</b></div>
+                      </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endif %}
+                  
+                  {% if user.is_authenticated %}
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link ingresar" href="{% url 'App_Inicio:login' %}">Ingresar</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link register" href="{% url 'App_Inicio:register' %}">Registro</a>
+                  </li>
+
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link cart" href="{% url 'App_Inicio:carrito' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>    <span class="badge bg-primary" id="carritospan">{{ productoscarrito }}</span></a>
+                  </li>
+                  
+                  <li class="nav-item">
+                    <a class="nav-link salir" href="{% url 'App_Inicio:logout' %}">Salir</a>
+                  </li>
+                  {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light menu">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link navmenu2 {% if request.resolver_match.url_name == 'index' %}menuactive2{% endif %}" href="/">Inicio</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle navmenu2 {% if request.resolver_match.url_name == 'categoria' %}menuactive2{% endif %}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Categorias
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                {% for n in categorias %}
+                <li><a class="dropdown-item" href="/categoria/{{ n.id }}">{{ n.descripcion }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link navmenu2 {% if request.resolver_match.url_name == 'acercade' %}menuactive2{% endif %}" href="{% url 'App_Inicio:acercade' %}">Acerca de</a></li>
+            <li class="nav-item"><a class="nav-link navmenu2" href="mailto:santi.cappelletti@gmail.com">Contacto</a></li>
+            {% if request.user.is_staff %}
+            <li class="na-item"><a class="nav-link navmenu2 {% if request.resolver_match.url_name == 'nuevoproducto' %}menuactive2{% endif %}" href="{% url 'App_Inicio:nuevoproducto' %}"> + Nuevo producto</a></li>
+            {% endif %}
+          </ul>
+          <form class="form-inline" action="{% url 'App_Inicio:resultado_busqueda' %}" method="get">
+            <input class="align-middle" type="search" placeholder="Inserte una palabra..." aria-label="Buscar" input name="query">
+            <button class="btn btn-outline-success btn-sm align-middle" type="submit">Buscar</button>
+          </form>
+      </div>
+  </nav>
+</header>
+
+<body>
+  {% block article_section %}{% endblock article_section %}
+</body>
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="1000">
+    <div class="d-flex">
+      <div class="toast-body">
+        Producto agregado al carrito!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer font-small bg-dark">
+    <div class="footer-copyright text-center py-3">© 2021 JAGUARETE KAA S.A. Todos los derechos reservados / Desarrollo web por Santiago Cappelletti</div>
+</footer>
+
+</html>
