@@ -12,7 +12,7 @@
 <form action="/editar/{{ id }}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.management_form }}
-  <div class="nuevoproducto bg-dark">
+  <div class="nuevoproducto bg-secondary">
     <ul>
         <li><label>Título del producto: </label></li>
         <li>{{ form.titulo }}</li>

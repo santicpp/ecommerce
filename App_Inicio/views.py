@@ -21,7 +21,7 @@ def index(request):
 def acercade(request):
     return render(request, 'web/acercade.html')
     
-@login_required
+@login_required(login_url='App_Inicio:register')
 def nuevoproducto(request):
     form = FormNuevoProducto(request.POST, request.FILES)
 
@@ -33,7 +33,7 @@ def nuevoproducto(request):
         "form": FormNuevoProducto()
     })
 
-@login_required
+@login_required(login_url='App_Inicio:register')
 def editar_producto(request, id):
     instance = get_object_or_404(Producto, id=id)
     form = FormNuevoProducto(request.POST or None, instance=instance)
@@ -74,6 +74,7 @@ def login_request(request):
 	form = AuthenticationForm()
 	return render(request=request, template_name="web/login.html", context={"login_form":form})
 
+@login_required(login_url='App_Inicio:register')
 def logout_request(request):
 	logout(request)
 	return redirect("/")
@@ -102,7 +103,7 @@ def busqueda(request):
     context = {'busqueda_pag': busqueda_pag, 'productobusqueda': productos, 'busqueda':busqueda}
     return render(request, 'web/resultados.html', context)
 
-@login_required
+@login_required(login_url='App_Inicio:register')
 def add_to_cart(request, id):
     item = get_object_or_404(Producto, id=id)
     order_item, created = ProductoCarrito.objects.get_or_create(
@@ -129,7 +130,7 @@ def add_to_cart(request, id):
         order_quantity = order.get_total_items()
         return HttpResponse(order_quantity)
 
-@login_required
+@login_required(login_url='App_Inicio:register')
 def remove_from_cart(request, id):
     item = get_object_or_404(Producto, id=id )
     order_qs = Carrito.objects.filter(
@@ -151,7 +152,7 @@ def remove_from_cart(request, id):
     else:
         return redirect("App_Inicio:carrito")
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def reduce_quantity_item(request, id):
     item = get_object_or_404(Producto, id=id )
     order_qs = Carrito.objects.filter(
@@ -177,6 +178,7 @@ def reduce_quantity_item(request, id):
     else:
         return redirect("App_Inicio:carrito")
 
+@login_required(login_url='App_Inicio:register')
 def clean_cart(request):
     order = Carrito.objects.get(usuario=request.user, ordered=False)
     order_items = order.items.all()
@@ -185,6 +187,7 @@ def clean_cart(request):
         order.save()
     return redirect("App_Inicio:carrito")
 
+@login_required(login_url='App_Inicio:register')
 def carrito(request):
     order = Carrito.objects.get(usuario=request.user, ordered=False)
     finalorder = order.items.all()
@@ -201,6 +204,7 @@ def carrito(request):
     context = {'finalorder' : finalorder, 'preciofinal': preciofinal, 'products': products, 'get_descuento':get_descuento, 'precioparcial': precioparcial}
     return render(request, 'web/carrito.html', context)
 
+@login_required(login_url='App_Inicio:register')
 def finalizar_compra(request):
     userlvlmodel = Nivel.objects.get(usuario=request.user)
     order = Carrito.objects.get(usuario=request.user, ordered=False)
