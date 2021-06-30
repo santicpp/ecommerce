@@ -97,10 +97,7 @@ def categorias_filtro(request, categoria):
 def busqueda(request):
     busqueda = request.GET.get('query')
     productos = Producto.objects.filter(Q(titulo__icontains=busqueda) | Q(descripcion__icontains=busqueda) | Q(categoria__descripcion__icontains=busqueda))
-    paginator = Paginator(productos, 5)
-    numero_pagina = request.GET.get('page')
-    busqueda_pag = paginator.get_page(numero_pagina)
-    context = {'busqueda_pag': busqueda_pag, 'productobusqueda': productos, 'busqueda':busqueda}
+    context = {'productobusqueda': productos, 'busqueda':busqueda}
     return render(request, 'web/resultados.html', context)
 
 @login_required(login_url='App_Inicio:register')
