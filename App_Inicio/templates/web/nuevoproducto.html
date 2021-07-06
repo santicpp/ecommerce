@@ -29,16 +29,16 @@
           <li><button class="btn btn-primary" type="submit">Guardar!</button></li>
       </ul>
       {% if messages %}
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <ul class="messages">
-              {{ form.message.errors }}
-              <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-
-            </ul>
-            
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-      {% endif %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<ul class="messages">
+						{% for message in messages %}
+						<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+						{% endfor %}
+					</ul>
+					
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			  	</div>
+		{% endif %}
     </div>
   </form>
 </div>

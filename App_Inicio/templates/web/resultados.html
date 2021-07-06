@@ -17,6 +17,7 @@
      <div class="card-body">
        <h5 class="card-title">{{ n.titulo }}</h5>
        <p class="card-text">{{ n.descripcion }}</p>
+       <p class="card-text"><b>Precio: ${{ n.precio }}</b></p>
        {% if user.is_authenticated %}
        <p class="card-text"><small class="text-muted"><a class="btn btn-outline-primary" href="/detalle/{{ n.id }}">Ver más</a>   <a class="btn btn-outline-success" onclick='AjaxAgregar("/add-to-cart/{{ n.id }}")'>Agregar al carrito</a></small></p>
        {% else %}

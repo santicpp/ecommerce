@@ -45,7 +45,7 @@ body{
 
 .register:hover, .ingresar:hover, .cart:hover, .salir:hover{
     transform: scale(1.05);
-    transform: rotate(5deg);
+    transform: rotate(2deg);
     transition: .5s;
     color:lightgreen;
 }
@@ -63,8 +63,7 @@ body{
 }
 
 .btnuser{
-    background: linear-gradient(-45deg, #ff5178, #f88e6a);
-    background-size: 400% 400%;
+    background-color: #85929E;
     border-color: black;
     animation: gradient 15s ease infinite;
     padding: 7px;
@@ -363,10 +362,10 @@ footer{
      }
      60% {
         opacity: 1;
-        transform: translateY(-10px);
+        transform: translateY(-5px);
      }
      80% {
-        transform: translateY(10px);
+        transform: translateY(5px);
      }
      100% {
         transform: translateY(0);
